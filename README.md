@@ -4,6 +4,6 @@ Once done, this template will grab the authenticated user's Twitter photo as wel
 
 ## to do
 
-1. parse json
-2. create profile page
-3. setup mongo
+1. setup mongo
+2. unti tests
+3. error handling
