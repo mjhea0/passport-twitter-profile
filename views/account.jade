@@ -4,17 +4,23 @@ html
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(href='/css/bootstrap.min.css', rel='stylesheet', media='screen')
-    link(href='/css/main.css', rel='stylesheet', media='screen')    
+    link(href='/css/main.css', rel='stylesheet', media='screen')
   body
   .container              
-    h1 Say something meaningful here.
+    h1 This is your account. Pal.
     p.lead Say something worthwhile here.
     a(href="/") Go home
     br
-    a(href="/ping") Ping
+    a(href="/logout") Logout
     br
     br
-    a(href="/auth/twitter") Login via Twitter
+    h4 Profile Pic
+    img(src="#{profileImage}")
+    br
+    h4 Recent Tweets
+    ul
+      -for(var key in latestTweet)
+       li #{latestTweet[key].text}
 
   script(src='http://code.jquery.com/jquery.js')
   script(src='js/bootstrap.min.js')

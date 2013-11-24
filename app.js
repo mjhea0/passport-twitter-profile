@@ -55,24 +55,32 @@ app.get('/', routes.index);
 app.get('/ping', routes.ping);
 app.get("/auth/twitter", passport.authenticate('twitter'));
 app.get("/auth/twitter/callback", passport.authenticate('twitter', {
-  successRedirect: '/timeline',
+  successRedirect: '/account',
   failureRedirect: '/'
 }));
 
-app.get('/timeline', function(req,res){
-    passport._strategies.twitter._oauth.getProtectedResource(
-        'https://api.twitter.com/1.1/statuses/user_timeline.json',
-        'GET',
-    req.user.twitter_token,
-    req.user.twitter_token_secret,
-    function (err, data, response) {
-        if(err) {
-          res.send(err, 500);
-          return;
-        }
-        var jsonObj = JSON.parse(data);
-        res.send(jsonObj);
-    });
+app.get('/account', function(req,res){
+  passport._strategies.twitter._oauth.getProtectedResource(
+      'https://api.twitter.com/1.1/statuses/user_timeline.json',
+      'GET',
+  req.user.twitter_token,
+  req.user.twitter_token_secret,
+  function (err, data, response) {
+      if(err) {
+        // add error handler!
+        res.send(err, 500);
+        return;
+      }
+      var jsonObj = JSON.parse(data);
+      var profileImage = jsonObj[0].user.profile_image_url
+      var latestTweet = jsonObj
+      console.log(latestTweet)
+      res.render('account', { profileImage: profileImage, latestTweet: latestTweet});
+  });
+});
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
 });
 
 http.createServer(app).listen(app.get('port'), function(){
